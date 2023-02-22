@@ -6,12 +6,12 @@ import React, { useState, useEffect } from 'react';
 
 function App() {
   // Axios connects to django backend
-  console.log(axios.get("http://localhost:8000/api/Users/"))
+  console.log(axios.get("http://localhost:8000/api/users/"))
 
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:8000/api/Users/")
+    axios.get("http://localhost:8000/api/users/")
       .then(res => {
         setData(res.data);
       })
@@ -29,7 +29,7 @@ function App() {
         <div>
           {data.map(item => (
             <div key={item.id}>
-              <h2>{item.firstName} {item.lastName}</h2>
+              <h2>{item.username} {item.email}</h2>
             </div>
           ))}
         </div>
