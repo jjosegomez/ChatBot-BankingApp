@@ -9,10 +9,21 @@ from django.contrib.auth.models import User, Group
 
 from django.contrib.auth import login
 from rest_framework.authtoken.serializers import AuthTokenSerializer
+from rest_framework.authentication import TokenAuthentication
 from knox.views import LoginView as KnoxLoginView
 
-# Create your views here.
 
+# Create your views here.
+# {
+#    "expiry": "2023-02-26T05:27:00.540643Z",
+#    "token": "18a3e5c8b84fc6f2da0556da9424b18bc87955c049060b0bfe82c9e40a2cce11"
+# }
+# {
+#    "username": "draco",
+#   "email": "draco@example.com",
+#   "password": "12345678!"
+# }
+# "url": "http://127.0.0.1:8000/api/users/5/",
 
 class UserViewSet(viewsets.ModelViewSet):
     """
@@ -20,7 +31,7 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
-    #permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
 
 class GroupViewSet(viewsets.ModelViewSet):
@@ -29,10 +40,11 @@ class GroupViewSet(viewsets.ModelViewSet):
     """
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
-    #permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
 
-class RegisterAPI(generics.GenericAPIView):  # Register API: Endpoint accessible to REACT frontend
+# Register API: Endpoint accessible to REACT frontend
+class RegisterAPI(generics.GenericAPIView):
     serializer_class = RegisterSerializer
 
     def post(self, request, *args, **kwargs):
@@ -43,6 +55,7 @@ class RegisterAPI(generics.GenericAPIView):  # Register API: Endpoint accessible
             "user": UserSerializer(user, context=self.get_serializer_context()).data,
             "token": AuthToken.objects.create(user)[1]
         })
+
 
 class LoginAPI(KnoxLoginView):  # Login API: Endpoint accessible to REACT frontend
     permission_classes = (permissions.AllowAny,)
