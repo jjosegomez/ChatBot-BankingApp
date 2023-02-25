@@ -29,7 +29,7 @@ function App() {
         <div>
           {data.map(item => (
             <div key={item.id}>
-              <h2>{item.username} {item.email}</h2>
+              <h2> {item.username} {item.email}</h2>
             </div>
           ))}
         </div>
