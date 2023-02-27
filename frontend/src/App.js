@@ -1,5 +1,9 @@
 import Navbar from './components/Navbar/Navbar/Navbar';
 import Welcome from './components/Welcome/Welcome';
+import SignIn from './components/SignIn'
+import Dashboard from './components/Dashboard';
+import SignUp from './components/SignUp';
+
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 
@@ -22,7 +26,12 @@ function App() {
   return (
     <div className="App">
         <Navbar/>
+        <SignIn/>
         <Welcome/>
+        <Dashboard/>
+        <SignUp/>
+        
+        
     </div>
   );
 }
