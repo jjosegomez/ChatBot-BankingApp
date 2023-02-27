@@ -1,45 +1,25 @@
-import Navbar from './components/Navbar/Navbar/Navbar';
-import Welcome from './components/Welcome/Welcome';
-import SignIn from './components/SignIn'
-import Dashboard from './components/Dashboard';
-import SignUp from './components/SignUp';
-import SignInSide from './components/SignInSide';
+import { BrowserRouter } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
+// routes
+import Router from './routes';
+// theme
+import ThemeProvider from './theme';
+// components
+import { StyledChart } from './components/chart';
+import ScrollToTop from './components/scroll-to-top';
 
+// ----------------------------------------------------------------------
 
-import axios from 'axios';
-import React, { useState, useEffect } from 'react';
-
-function App() {
-  // Axios connects to django backend
-  console.log(axios.get("http://localhost:8000/api/users/"))
-
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    axios.get("http://localhost:8000/api/users/")
-      .then(res => {
-        setData(res.data);
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  }, []);
-
+export default function App() {
   return (
-    <div className="App">
-        
-        
-       
-        <Dashboard/>
-        <SignInSide/>
-        <SignIn/>
-        <SignUp/>
-        <Navbar/>
-        <Welcome/>
-        
-        
-    </div>
+    <HelmetProvider>
+      <BrowserRouter>
+        <ThemeProvider>
+          <ScrollToTop />
+          <StyledChart />
+          <Router />
+        </ThemeProvider>
+      </BrowserRouter>
+    </HelmetProvider>
   );
 }
-
-export default App;
