@@ -12,11 +12,15 @@ class ClientProfile(models.Model):
     location = models.CharField(max_length=30, blank=True)
     birth_date = models.DateField(null=True, blank=True)
 
+
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
-    print(f"This is the instance created: {instance}\n sender: {sender}\n created: {created}")
+    print(
+        f"This is the instance created: {instance}\n sender: {sender}\n created: {created}")
     if created:
-        ClientProfile.objects.create(user=instance)
+        self = ClientProfile.objects.create(user=instance)
+        # print(self.id)
+
 
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):

@@ -25,6 +25,6 @@ class RegisterSerializer(serializers.HyperlinkedModelSerializer):
         print(self)
         print(validated_data)
         user = User.objects.create_user(validated_data['username'], validated_data['email'], validated_data['password'])
-        my_group = Group.objects.get(name='Customers') 
-        my_group.user_set.add(user)
+        #my_group = Group.objects.get(name='Customers') 
+        #my_group.user_set.add(user)
         return user
