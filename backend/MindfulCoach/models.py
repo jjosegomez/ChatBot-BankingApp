@@ -2,11 +2,22 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 # Built in models for Users and Groups
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User
 
+# class User(AbstractUser):
+#     is_coach = models.BooleanField(default=False)
 
 # Create your models here.
+
+
 class ClientProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    bio = models.TextField(max_length=500, blank=True)
+    location = models.CharField(max_length=30, blank=True)
+    birth_date = models.DateField(null=True, blank=True)
+
+
+class CoachProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(max_length=500, blank=True)
     location = models.CharField(max_length=30, blank=True)
@@ -17,15 +28,19 @@ class ClientProfile(models.Model):
 def create_user_profile(sender, instance, created, **kwargs):
     print(
         f"This is the instance created: {instance}\n sender: {sender}\n created: {created}")
-    if created:
-        self = ClientProfile.objects.create(user=instance)
-        # print(self.id)
+    if created and instance.is_staff:
+        CoachProfile.objects.create(user=instance)
+    elif created:
+        ClientProfile.objects.create(user=instance)
 
 
 @receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
+def save_user_profile(sender, instance, created, **kwargs):
     print(instance)
-    instance.clientprofile.save()
+    if created and instance.is_staff:
+        instance.coachprofile.save()
+    elif created:
+        instance.clientprofile.save()
 
 
 # IN PROGRESS: (Primary key/id is automatically generated) This model will be the table that stores the appointments
