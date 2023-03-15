@@ -2,7 +2,8 @@
 from rest_framework import serializers
 # later for models from .models import User
 # Built in models for Users and Groups
-from django.contrib.auth.models import User, Group
+from .models import Appointment
+from django.contrib.auth.models import User
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -11,12 +12,10 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         fields = ['url', 'id', 'username', 'email', 'groups']
 
 
-class GroupSerializer(serializers.HyperlinkedModelSerializer):
+class AppointmentSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Group
-        fields = ['url', 'name']
-
-# Register Serializer
+        model = Appointment
+        fields = ['date', 'time', 'coach', 'client']
 
 
 class RegisterSerializer(serializers.HyperlinkedModelSerializer):

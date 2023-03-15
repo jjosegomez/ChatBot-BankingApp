@@ -4,8 +4,9 @@ from rest_framework import viewsets
 from rest_framework import permissions, generics
 from rest_framework.response import Response
 from knox.models import AuthToken
-from .serializers import UserSerializer, GroupSerializer, RegisterSerializer
-from django.contrib.auth.models import User, Group
+from .serializers import UserSerializer, RegisterSerializer, AppointmentSerializer
+from django.contrib.auth.models import User
+from .models import Appointment
 
 from django.contrib.auth import login
 from rest_framework.authtoken.serializers import AuthTokenSerializer
@@ -34,13 +35,9 @@ class UserViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
 
-class GroupViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
-    queryset = Group.objects.all()
-    serializer_class = GroupSerializer
-    permission_classes = [permissions.IsAuthenticated]
+class AppointmentViewSet(viewsets.ModelViewSet):
+    queryset = Appointment.objects.all()
+    serializer_class = AppointmentSerializer
 
 
 # Register API: Endpoint accessible to REACT frontend
