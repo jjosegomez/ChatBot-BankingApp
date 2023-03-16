@@ -12,17 +12,19 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         fields = "__all__"
 
 
-class AppointmentSerializer(serializers.ModelSerializer):
+class AppointmentSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Appointment
-        fields = ['date', 'time', 'coach', 'client']
+        fields = "__all__"
 
-class ClientProfileSerializer(serializers.ModelSerializer):
+
+class ClientProfileSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = ClientProfile
         fields = "__all__"
 
-class CoachProfileSerializer(serializers.ModelSerializer):
+
+class CoachProfileSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = CoachProfile
         fields = "__all__"
@@ -31,7 +33,8 @@ class CoachProfileSerializer(serializers.ModelSerializer):
 class RegisterSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
-        fields = ['url', 'first_name', 'last_name', 'username', 'email', 'password', 'is_staff']
+        fields = ['url', 'first_name', 'last_name',
+                  'username', 'email', 'password', 'is_staff']
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):

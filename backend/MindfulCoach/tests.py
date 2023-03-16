@@ -68,6 +68,21 @@ def getAppointmentsTest():
     print("\nAppointments Viewset test: ")
     print(response.status_code)
     print(response.json())
+    return response.json()
+
+
+def updateAppointmentsTest(url):
+    # Replace with the URL of your API endpoint
+    
+    # Send an HTTP GET request to the endpoint
+    data = { "client": "http://127.0.0.1:8000/api/clientprofile/3/"}
+  
+    response = requests.patch(
+        url, headers=headers, data=data)
+    # Check the response status code and content
+    print("\nUpdate Appointments Viewset test: ")
+    print(response.status_code)
+    print(response.json())
 
 
 def logoutTest():
@@ -87,5 +102,7 @@ print(headers)
 
 userGetTest()
 profileGetTest()
-getAppointmentsTest()
+appointment = getAppointmentsTest()
+
+updateAppointmentsTest(appointment[0]['url'])
 # logoutTest()
