@@ -5,10 +5,10 @@ from rest_framework import viewsets
 from rest_framework import permissions, generics
 from rest_framework.response import Response
 from knox.models import AuthToken
-from .serializers import UserSerializer, RegisterSerializer, AppointmentSerializer
+from .serializers import UserSerializer, RegisterSerializer, AppointmentSerializer, CoachProfileSerializer, ClientProfileSerializer
 from django.contrib.auth.models import User
 from django.http import HttpResponse
-from .models import Appointment
+from .models import Appointment, CoachProfile, ClientProfile
 
 from django.contrib.auth import login
 from rest_framework.authtoken.serializers import AuthTokenSerializer
@@ -32,14 +32,59 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
     """
+
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
 
+    def get_queryset(self):
+        print(self.request.user.id)
+        # Only return objects that belong to the authenticated user
+        return self.queryset.filter(id=self.request.user.id)
+
+
+class CoachPofileViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+
+    queryset = CoachProfile.objects.all()
+    serializer_class = CoachProfileSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        print(self.request.user.id)
+        # Only return objects that belong to the authenticated user
+        return self.queryset.filter(user=self.request.user.id)
+
+class ClientPofileViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+
+    queryset = ClientProfile.objects.all()
+    serializer_class = ClientProfileSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        print(self.request.user.id)
+        # Only return objects that belong to the authenticated user
+        return self.queryset.filter(user=self.request.user.id)
 
 class AppointmentViewSet(viewsets.ModelViewSet):
     queryset = Appointment.objects.all()
     serializer_class = AppointmentSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        print(self.request.user.id)
+        # Only return objects that belong to the authenticated user
+        if (self.request.user.is_staff == 1):
+            coach = CoachProfile.objects.get(user=self.request.user.id)
+            return self.queryset.filter(coach=coach)
+        else:
+            client = ClientProfile.objects.get(user=self.request.user.id)
+            return self.queryset.filter(client=client)
 
 
 # Register API: Endpoint accessible to REACT frontend
@@ -67,6 +112,7 @@ class LoginAPI(KnoxLoginView):  # Login API: Endpoint accessible to REACT fronte
         login(request, user)
         response = super(LoginAPI, self).post(request, format=None)
         data = response.data
+        print(f"Token: {data['token']}")
         returnResponse = HttpResponse()
         # Example string to be converted
         string_date = data['expiry']

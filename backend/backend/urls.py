@@ -23,6 +23,8 @@ from rest_framework import routers
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
 router.register(r'appointments', views.AppointmentViewSet)
+router.register(r'clientprofile', views.ClientPofileViewSet)
+router.register(r'coachprofile', views.CoachPofileViewSet)
 
 
 urlpatterns = [
