@@ -1,11 +1,13 @@
 from django.shortcuts import render
-
+import json
+from datetime import datetime
 from rest_framework import viewsets
 from rest_framework import permissions, generics
 from rest_framework.response import Response
 from knox.models import AuthToken
 from .serializers import UserSerializer, RegisterSerializer, AppointmentSerializer
 from django.contrib.auth.models import User
+from django.http import HttpResponse
 from .models import Appointment
 
 from django.contrib.auth import login
@@ -20,9 +22,9 @@ from knox.views import LoginView as KnoxLoginView
 #    "token": "18a3e5c8b84fc6f2da0556da9424b18bc87955c049060b0bfe82c9e40a2cce11"
 # }
 # {
-#    "username": "draco",
-#   "email": "draco@example.com",
-#   "password": "12345678!"
+#     "username": "coach1@example.com",
+#    "email": "coach1@example.com",
+#    "password": "coach1@example.com"
 # }
 # "url": "http://127.0.0.1:8000/api/users/5/",
 
@@ -63,4 +65,16 @@ class LoginAPI(KnoxLoginView):  # Login API: Endpoint accessible to REACT fronte
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
         login(request, user)
-        return super(LoginAPI, self).post(request, format=None)
+        response = super(LoginAPI, self).post(request, format=None)
+        data = response.data
+        returnResponse = HttpResponse()
+        # Example string to be converted
+        string_date = data['expiry']
+        # Define the format string
+        format_string = '%Y-%m-%dT%H:%M:%S.%fZ'
+        # Convert the string to a datetime object
+        date_object = datetime.strptime(string_date, format_string)
+        returnResponse.set_cookie(
+            key='Authorization', value=f"{data['token']}", expires=date_object)
+        # print(token)
+        return returnResponse
