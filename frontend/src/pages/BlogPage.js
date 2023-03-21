@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 // @mui
-import { Grid, Button, Container, Stack, Typography, TextField, FormControl, InputLabel, Input, FormHelperText } from '@mui/material';
+import { Grid, Button, Container, Stack, Typography, TextField, } from '@mui/material';
 import { DesktopDatePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -29,18 +29,17 @@ export default function BlogPage() {
             <Typography variant="h4" gutterBottom>
               View or Edit Your User Profile
             </Typography>
-            <Button variant="contained">
-              Update Profile
-            </Button>
+            
           </Stack>
 
 
           <Grid paddingTop={3} style={{ display: 'flex', justifyContent: 'center' }}>
-            <FormControl disabled variant="standard">
-              <InputLabel htmlFor="component-disabled">Name</InputLabel>
-              <Input id="component-disabled" defaultValue="Composed TextField" />
-              <FormHelperText>Disabled</FormHelperText>
-            </FormControl>
+            <TextField disabled
+              id="outlined-multiline-static"
+              label="Name"
+              defaultValue="Jackson Software"
+              sx={{ width: '50%' }}
+            />
           </Grid>
           
 
@@ -61,7 +60,6 @@ export default function BlogPage() {
             <TextField
               id="outlined-multiline-static"
               label="Location"
-              rows={4}
               defaultValue="Tampa, FL"
               helperText="Please enter your location"
               inputProps={{ maxLength: 10 }}
@@ -77,6 +75,12 @@ export default function BlogPage() {
                 helperText="Please enter your location"
               />
             </LocalizationProvider>
+          </Grid>
+          
+          <Grid paddingTop={3} style={{ display: 'flex', justifyContent: 'center' }}>
+            <Button variant="contained">
+              Update Profile
+            </Button>
           </Grid>
           
         </Grid>
