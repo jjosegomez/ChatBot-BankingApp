@@ -14,27 +14,17 @@ const navConfig = [
   {
     title: 'appointment history',
     path: '/dashboard/user',
-    icon: icon('ic_user'),
+    icon: icon('ic_blog'),
   },
   {
-    title: 'book appointment',
+    title: 'book an appointment',
     path: '/dashboard/products',
     icon: icon('ic_cart'),
   },
   {
-    title: 'testimonials',
+    title: 'Profile',
     path: '/dashboard/blog',
-    icon: icon('ic_blog'),
-  },
-  {
-    title: 'login',
-    path: '/login',
-    icon: icon('ic_lock'),
-  },
-  {
-    title: 'Not found',
-    path: '/404',
-    icon: icon('ic_disabled'),
+    icon: icon('ic_user'),
   },
 ];
 

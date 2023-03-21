@@ -8,9 +8,10 @@ import ThemeProvider from './theme';
 import { StyledChart } from './components/chart';
 import ScrollToTop from './components/scroll-to-top';
 
+
 // ----------------------------------------------------------------------
 
-export default function App() {
+export default function App({ children }) {
   return (
     <HelmetProvider>
       <BrowserRouter>
@@ -21,5 +22,6 @@ export default function App() {
         </ThemeProvider>
       </BrowserRouter>
     </HelmetProvider>
+
   );
 }
