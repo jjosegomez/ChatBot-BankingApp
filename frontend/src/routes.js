@@ -11,19 +11,23 @@ import Page404 from './pages/Page404';
 import ProductsPage from './pages/ProductsPage';
 import DashboardAppPage from './pages/DashboardAppPage';
 
+import isAuthenticated from './_mock/authenticate'
+
 // ----------------------------------------------------------------------
 
 export default function Router() {
+
+  const authenticated = isAuthenticated();
   const routes = useRoutes([
     {
       path: '/dashboard',
-      element: <DashboardLayout />,
+      element: authenticated ? <DashboardLayout /> : <Navigate to="/login" />,
       children: [
-        { element: <Navigate to="/dashboard/app" />, index: true },
-        { path: 'app', element: <DashboardAppPage /> },
-        { path: 'user', element: <UserPage /> },
-        { path: 'products', element: <ProductsPage /> },
-        { path: 'blog', element: <BlogPage /> },
+        { element: <Navigate to="/dashboard/home" />, index: true },
+        { path: 'home', element: authenticated ? <DashboardAppPage /> : <Navigate to="/login" /> },
+        { path: 'appointmenthistory', element: authenticated ? <UserPage /> : <Navigate to="/login" /> },
+        { path: 'bookappointment', element: authenticated ? <ProductsPage /> : <Navigate to="/login" /> },
+        { path: 'profile', element: authenticated ? <BlogPage /> : <Navigate to="/login" /> },
       ],
     },
     {
@@ -32,7 +36,7 @@ export default function Router() {
     },
     {
       path: 'register',
-      element: <RegisterPage/>
+      element: <RegisterPage />
     },
     {
       element: <SimpleLayout />,
@@ -49,4 +53,4 @@ export default function Router() {
   ]);
 
   return routes;
-}
+};

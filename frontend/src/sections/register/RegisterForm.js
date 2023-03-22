@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 // @mui
-import { Stack, IconButton, InputAdornment, TextField } from '@mui/material';
+import { Stack, IconButton, InputAdornment, TextField, RadioGroup, FormControlLabel, Radio, FormControl, FormLabel } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // components
 import Iconify from '../../components/iconify';
@@ -19,12 +19,13 @@ export default function RegisterForm() {
 
   return (
     <>
-      <Stack spacing={3}>
-        <TextField name="first-name" label="First Name" />
-        <TextField name="last-name" label="Last Name" />
-        <TextField name="email" label="Email address" />
+      <Stack spacing={3} style={{ display: 'flex', justifyContent: 'center' }} sx={{ width: '75%' }}>
+        <TextField required name="first-name" label="First Name" />
+        <TextField required name="last-name" label="Last Name" />
+        <TextField required name="email" label="Email address" />
 
         <TextField
+          required
           name="password"
           label="Password"
           type={showPassword ? 'text' : 'password'}
@@ -38,12 +39,23 @@ export default function RegisterForm() {
             ),
           }}
         />
+
+      <FormControl>
+        <FormLabel id="account type">Select the type of account you would like to register for:</FormLabel>
+        <RadioGroup name="use-radio-group" defaultValue="Client Account">
+          <FormControlLabel value="Client Account" label="Client Account" control={<Radio />} />
+          <FormControlLabel value="Coach Account" label="Coach Account" control={<Radio />} />
+        </RadioGroup>
+
+      </FormControl>
+      
+
       </Stack>
 
       <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}/>
         
 
-      <LoadingButton fullWidth size="large" type="submit" variant="contained" onClick={handleClick}>
+      <LoadingButton fullWidth size="large" type="submit" variant="contained" onClick={handleClick} sx={{ width: '75%' }}>
         Register
       </LoadingButton>
     </>

@@ -19,10 +19,11 @@ export default function LoginForm() {
 
   return (
     <>
-      <Stack spacing={3}>
-        <TextField name="email" label="Email address" />
+      <Stack spacing={3} style={{ display: 'flex', justifyContent: 'center' }} sx={{ width: '75%' }}>
+        <TextField required name="email" label="Email address" />
 
         <TextField
+          required
           name="password"
           label="Password"
           type={showPassword ? 'text' : 'password'}
@@ -41,7 +42,7 @@ export default function LoginForm() {
       <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}/>
         
 
-      <LoadingButton fullWidth size="large" type="submit" variant="contained" onClick={handleClick}>
+      <LoadingButton fullWidth size="large" type="submit" variant="contained" onClick={handleClick} sx={{ width: '75%' }}>
         Login
       </LoadingButton>
     </>
