@@ -97,7 +97,6 @@ export default function Nav({ openNav, onCloseNav }) {
           <Button href="https://material-ui.com/store/items/minimal-dashboard/" target="_blank" variant="contained">
             Need Assistance?
           </Button>
-          <Chat></Chat>
         </Stack>
       </Box>
     </Scrollbar>
