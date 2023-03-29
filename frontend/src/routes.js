@@ -17,7 +17,7 @@ import isAuthenticated from './_mock/authenticate'
 
 export default function Router() {
 
-  const authenticated = isAuthenticated();
+  const authenticated = true;
   const routes = useRoutes([
     {
       path: '/dashboard',
