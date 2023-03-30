@@ -14,7 +14,6 @@ import Scrollbar from '../../../components/scrollbar';
 import NavSection from '../../../components/nav-section';
 //
 import navConfig from './config';
-import Chat from "./Chat.js"
 
 // ----------------------------------------------------------------------
 
@@ -97,7 +96,6 @@ export default function Nav({ openNav, onCloseNav }) {
           <Button href="https://material-ui.com/store/items/minimal-dashboard/" target="_blank" variant="contained">
             Need Assistance?
           </Button>
-          <Chat></Chat>
         </Stack>
       </Box>
     </Scrollbar>
