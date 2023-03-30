@@ -16,8 +16,9 @@ function ChatUI(props) {
   };
 
   return (
-      <Box sx={{border: "lightgrey solid 1px", position: 'fixed',  bottom:props.isVisible, right: '20px', zIndex: 9999, backgroundColor: "#fff", borderRadius: "2%", overflow: "hidden", transition:".3s"}}>
-        <Box sx={{display: 'flex', flexFlow: 'column', height: '340px', width: '300px' }}>
+      <Box sx={{border: "lightgrey solid 1px", position: 'fixed',  bottom:props.isVisible, right: '20px', zIndex: 9999, 
+                backgroundColor: "#fff", borderRadius: "2%", overflow: "hidden", transition:".3s"}}>
+        <Box sx={{display: 'flex', flexFlow: 'column', height: '340px' }}>
           <Box sx={{ display: 'flex', justifyContent: 'center', p: 1 , backgorundColor:"rgb(52,103,203)"}}>
             <Typography 
             sx={{m:1}}
