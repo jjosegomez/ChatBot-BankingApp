@@ -5,7 +5,7 @@ import { styled } from '@mui/material/styles';
 //
 import Header from './header';
 import Nav from './nav';
-import ChatButton from './nav/ChatButton';import Chat from './nav/Chat.js';
+import ChatButton from './nav/ChatButton';import Chat from './nav/ChatButton';
 // ----------------------------------------------------------------------
 
 const APP_BAR_MOBILE = 64;
