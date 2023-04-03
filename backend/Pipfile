@@ -9,6 +9,9 @@ djangorestframework = "*"
 django-cors-headers = "*"
 django-rest-framework = "*"
 django-rest-knox = "*"
+numpy = "*"
+torch = "*"
+nltk = "*"
 
 [dev-packages]
 
