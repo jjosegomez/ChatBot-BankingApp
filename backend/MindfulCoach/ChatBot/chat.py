@@ -2,6 +2,8 @@ import random
 import json
 import textwrap
 import torch
+import sys
+import base64
 
 from model import NeuralNet
 from nltk_utils import bag_of_words, tokenize
@@ -26,10 +28,10 @@ model.load_state_dict(model_state)
 model.eval()
 
 bot_name = "J"
-print("Let's chat! (type 'quit' to exit)")
+# print("Let's chat! (type 'quit' to exit)")
 while True:
     # sentence = "do you use credit cards?"
-    print("You: " + "\t", end="")
+    # print("You: " + "\t", end="")
     sentence = input()
     if sentence == "quit":
         break
@@ -54,14 +56,15 @@ while True:
     """Softmax is a mathematical function that converts a vector of real 
     numbers into a probability distribution."""
     probs = torch.softmax(output, dim=1)
-    
+
     prob = probs[0][predicted.item()]
     if prob.item() > 0.75:
         for intent in intents['intents']:
             if tag == intent["tag"]:
                 bot_response = random.choice(intent['responses'])
                 bot_response = textwrap.fill(bot_response, width=100)
-                print((bot_name + ": "), end="")
-                print("\t" + (bot_response))
+                # print((bot_name + ": "), end="")
+                # print("\t" + (bot_response))
+                print(bot_response)
     else:
         print(f"{bot_name}: I do not understand...")

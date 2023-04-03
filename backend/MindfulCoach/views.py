@@ -1,3 +1,4 @@
+from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render
 import json
 from datetime import datetime
@@ -15,6 +16,9 @@ from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.authentication import TokenAuthentication
 from knox.views import LoginView as KnoxLoginView
 
+import subprocess
+import os
+from django.http import JsonResponse
 
 # Create your views here.
 # {
@@ -27,6 +31,7 @@ from knox.views import LoginView as KnoxLoginView
 #    "password": "coach1@example.com"
 # }
 # "url": "http://127.0.0.1:8000/api/users/5/",
+
 
 class UserViewSet(viewsets.ModelViewSet):
     """
@@ -57,6 +62,7 @@ class CoachPofileViewSet(viewsets.ModelViewSet):
         # Only return objects that belong to the authenticated user
         return self.queryset.filter(user=self.request.user.id)
 
+
 class ClientPofileViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
@@ -70,6 +76,7 @@ class ClientPofileViewSet(viewsets.ModelViewSet):
         print(self.request.user.id)
         # Only return objects that belong to the authenticated user
         return self.queryset.filter(user=self.request.user.id)
+
 
 class AppointmentViewSet(viewsets.ModelViewSet):
     queryset = Appointment.objects.all()
@@ -124,3 +131,66 @@ class LoginAPI(KnoxLoginView):  # Login API: Endpoint accessible to REACT fronte
             key='Authorization', value=f"{data['token']}", expires=date_object)
         # print(token)
         return returnResponse
+
+# Chatbot API endpoint
+
+
+@csrf_exempt
+def ChatBotView(request):
+
+    if request.method == 'POST' and request.content_type == 'application/json':
+        # Get the JSON data from the request body
+        ChatbotInput = json.loads(request.body)
+
+        # Save current working directory
+        original_dir = os.getcwd()
+
+        # construct the path to the script file
+        #script_path = os.path.join(current_dir, 'ChatBot', 'chat.py')
+        chatbot_dir = os.path.join(os.path.dirname(
+            os.path.abspath(__file__)), 'ChatBot')
+        os.chdir(chatbot_dir)
+
+        # chatbotResponse = subprocess.check_output(
+        #     ['python3', "chat.py"])
+        # Start subprocess
+        process = subprocess.Popen(
+            ['python3', 'chat.py'], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+
+        # Send input to subprocess
+
+        input_data = ChatbotInput["input"]
+        input_data += "\n"
+
+        print('Input data:', input_data)
+        process.stdin.write(input_data.encode())
+        process.stdin.flush()
+
+        # Get output from subprocess
+        output_data = process.stdout.readline().decode()
+
+
+        # Print output and error data from subprocess
+        print('Output data:', output_data)
+
+        # Terminate subprocess
+        process.terminate()
+
+        # Change back to original directory
+        os.chdir(original_dir)
+
+
+        # Create a response JSON object
+        response_data = {
+            'status': 'success',
+            'ChatBotResponse' : output_data
+        }
+        # Return the response as JSON
+        return JsonResponse(response_data)
+
+    else:
+        # Return an error response if the request method or content type is not correct
+        error_data = {
+            'error': 'Invalid request'
+        }
+        return JsonResponse(error_data, status=400)
