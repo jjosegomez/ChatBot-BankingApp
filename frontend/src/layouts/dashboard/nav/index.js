@@ -79,7 +79,7 @@ export default function Nav({ openNav, onCloseNav }) {
 
       <Box sx={{ flexGrow: 1 }} />
 
-      <Box sx={{ px: 2.5, pb: 10, mt: 10 }}>
+      {/* <Box sx={{ px: 2.5, pb: 10, mt: 10 }}>
         <Stack alignItems="center" spacing={1} sx={{ pt: 5, borderRadius: 2, position: 'relative' }}>
           <Box
             component="img"
@@ -93,12 +93,11 @@ export default function Nav({ openNav, onCloseNav }) {
             </Typography>
 
           </Box>
-
           <Button href="https://material-ui.com/store/items/minimal-dashboard/" target="_blank" variant="contained">
             Need Assistance?
           </Button>
         </Stack>
-      </Box>
+      </Box> */}
     </Scrollbar>
   );
 
