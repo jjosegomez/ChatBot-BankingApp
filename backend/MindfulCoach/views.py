@@ -2,6 +2,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render
 import json
 from datetime import datetime
+from datetime import date
+from datetime import time, timedelta
 from rest_framework import viewsets
 from rest_framework import permissions, generics
 from rest_framework.response import Response
@@ -109,6 +111,69 @@ class RegisterAPI(generics.GenericAPIView):
         })
 
 
+@csrf_exempt
+def AvailableAppointments(request):
+    daysOfWeek = [0, 1, 2, 3, 4]
+    hours = [9, 10, 11, 12, 13, 14, 15, 16, 17]
+
+    # First update appointments
+    todaysDate = date.today()
+    print(todaysDate)
+    # todaysDate = datetime.strptime(todaysDate, "%Y-%m-%d").date()
+
+    # Delete any appointments in the past without a client
+    EmptyAppointments = Appointment.objects.filter(client=None)
+    for appointment in EmptyAppointments:
+        if (appointment.date < todaysDate):
+            appointment.delete()
+
+    # Update all coaches appointments to ensure they have appointments available for the next week
+
+    Coaches = CoachProfile.objects.all()
+    allAppointments = Appointment.objects.all()
+
+    for coach in Coaches:
+        # Attempt to create appointments for the next week if they are not already there
+        for daysAhead in range(7):
+            futureDate = date.today() + timedelta(days=daysAhead)
+            for hour in hours:
+                hourOfAppointment = time(hour, 00)
+                if not (allAppointments.filter(coach=coach, date=futureDate, time=hourOfAppointment).exists()):
+                    print(
+                        f"This appointment for {coach} does not exist {futureDate} at {hourOfAppointment}")
+                    if (futureDate.weekday() in daysOfWeek):
+                        newAppt = Appointment(
+                            coach=coach, date=futureDate, time=hourOfAppointment)
+                        newAppt.save()
+
+    availableAppointments = []
+
+    # Delete all appointments for testing
+    # for appt in allAppointments:
+    #     appt.delete()
+
+    for Coach in Coaches:
+        info = {
+            "firstName": Coach.user.first_name,
+            "lastName": Coach.user.last_name,
+            "bio": Coach.bio,
+            "education": Coach.education,
+            "appointments": AppointmentSerializer(Appointment.objects.filter(coach=Coach).filter(client=None), many=True, context={'request': request}).data,
+        }
+        availableAppointments.append(info)
+
+    returnObj = {
+        "AppointmentsByCoach": availableAppointments
+    }
+
+    print(returnObj)
+    # Return an error response if the request method or content type is not correct
+    # error_data = {
+    #     'error': 'valid request'
+    # }
+    return JsonResponse(returnObj, status=200)
+
+
 class LoginAPI(KnoxLoginView):  # Login API: Endpoint accessible to REACT frontend
     permission_classes = (permissions.AllowAny,)
 
@@ -169,7 +234,6 @@ def ChatBotView(request):
         # Get output from subprocess
         output_data = process.stdout.readline().decode()
 
-
         # Print output and error data from subprocess
         print('Output data:', output_data)
 
@@ -179,11 +243,10 @@ def ChatBotView(request):
         # Change back to original directory
         os.chdir(original_dir)
 
-
         # Create a response JSON object
         response_data = {
             'status': 'success',
-            'ChatBotResponse' : output_data
+            'ChatBotResponse': output_data
         }
         # Return the response as JSON
         return JsonResponse(response_data)

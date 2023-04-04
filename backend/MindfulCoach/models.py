@@ -6,14 +6,15 @@ from django.contrib.auth.models import User
 
 class ClientProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    bio = models.TextField(max_length=500, blank=True)
+    bio = models.TextField(max_length=240, blank=True)
     location = models.CharField(max_length=30, blank=True)
     birth_date = models.DateField(null=True, blank=True)
 
 
 class CoachProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    bio = models.TextField(max_length=500, blank=True)
+    education = models.TextField(max_length=60, blank=True)
+    bio = models.TextField(max_length=240, blank=True)
     location = models.CharField(max_length=30, blank=True)
     birth_date = models.DateField(null=True, blank=True)
 
@@ -41,7 +42,7 @@ class Appointment(models.Model):
     date = models.DateField()
     time = models.TimeField()
     coach = models.ForeignKey(CoachProfile, on_delete=models.CASCADE)
-    client = models.ForeignKey(ClientProfile, on_delete=models.CASCADE, default=None)
+    client = models.ForeignKey(ClientProfile, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):  # Return string representation of the object
         return f"time:{self.time} date:{self.date} coach:{self.coach} patient:{self.client}"
