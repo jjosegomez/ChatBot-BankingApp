@@ -12,7 +12,8 @@ const BookAppointment = () => {
       <Button
       component={NavLink} to="/dashboard/bookappointment"
       variant="outlined" 
-      sx={{margin:"auto", fontSize:"1.25rem", width:"200px", mb:2, mt:1}}>Book Now!</Button>
+      sx={{margin:"auto", fontSize:"1.25rem", width:"200px", mb:2, mt:1}}>
+      Book Now!</Button>
     </Box>
   );
 };
