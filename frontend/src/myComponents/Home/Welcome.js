@@ -9,7 +9,7 @@ const Welcome = () => {
             <Typography sx={{ m:5, mb:1, p:0}} color="textPrimary" variant="h3">
                 Find Your Perfect Life Coach Today!
             </Typography>
-            <Typography sx={{m:5, mt:2.5}}>
+            <Typography sx={{mb:2, mt:2.5, ml:2,mr:2}}>
                 Welcome to MindfulCoach, where you can find your perfect life coach. We help match you with a coach who understands your personality and goals, so you can achieve your full potential. Our easy-to-use platform lets you search for coaches based on your preferences and connect with them directly to schedule sessions. Let us help you find the support and guidance you need to succeed.
             </Typography>
         </Box>

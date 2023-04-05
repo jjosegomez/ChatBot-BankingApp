@@ -30,7 +30,7 @@ export default function DashboardAppPage() {
       </Container>
       <Container sx={{
         displat: "flex",
-        justifyContent: "space-between",
+        justifyContent: "center",
         alignItems: "center",
         backgroundColor: "rgba(145, 158, 171, 0.16)",
         fontWeight: "700",
