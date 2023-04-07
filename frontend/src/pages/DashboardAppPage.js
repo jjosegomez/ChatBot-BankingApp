@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 
 // @mui
-import { Grid, Container, Typography } from '@mui/material';
+import { Grid, Container, Typography, Box } from '@mui/material';
 // components
 // sections
 import {
@@ -12,18 +12,42 @@ import {
 
 // ----------------------------------------------------------------------
 
+import Welcome from 'src/myComponents/Home/Welcome';
+import BookAppointment from 'src/myComponents/Home/BookAppointment';
+
 export default function DashboardAppPage() {
   
 
   return (
     <>
       <Helmet>
-        <title> Dashboard | Minimal UI </title>
+        <title> Home | MindfulCoach </title>
       </Helmet>
+      <Container>
+          <Typography variant="h4" sx={{ mb: 5 }}>
+              Home
+          </Typography>
+      </Container>
+      <Container sx={{
+        displat: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "rgba(145, 158, 171, 0.16)",
+        fontWeight: "700",
+        border: "rgba(145, 158, 171, 0.16) solid 1px",
+        borderRadius: "10px",
+        margin: "auto",
+        backgroundColor:"#fff",
+      }}>
+        <Welcome/>
+        <BookAppointment/>
+      </Container>
 
+
+      {/*
       <Container maxWidth="xl">
         <Typography variant="h4" sx={{ mb: 5 }}>
-          Hi, Welcome back to Mindul Coaching!
+          Hi, Welcome back to Mindful Coaching!
         </Typography>
         <Typography variant="h5" sx={{ mb: 5 }}>
           Here are your upcoming appointments:
@@ -73,7 +97,7 @@ export default function DashboardAppPage() {
           </Grid>
 
         </Grid>
-      </Container>
+      </Container> */}
     </>
   );
 }
