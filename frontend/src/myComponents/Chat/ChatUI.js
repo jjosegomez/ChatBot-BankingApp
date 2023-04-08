@@ -30,13 +30,13 @@ function ChatUI(props) {
     }
     let response = axios.post(url, input, { headers: defaultHeaders }).then(response => {
 
-      const newMessageSide = messageSide === 'left' ? 'right' : 'left'; // determine new message side
-      setMessageSide(newMessageSide); // toggle message side
       setChatMessages(prevChatMessages => [...prevChatMessages, { message: response.data.ChatBotResponse, side: 'left' }]);
 
     })
       .catch(error => {
         console.error(error);
+        setChatMessages(prevChatMessages => [...prevChatMessages, { message: "Sorry I am having trouble connecting", side: 'left' }]);
+
       });
 
 
@@ -56,7 +56,7 @@ function ChatUI(props) {
     }}>
       <Stack>
         <Item>
-          <Box sx={{ height: "30px",display: 'flex', justifyContent: 'center', p: 1, backgorundColor: "rgb(52,103,203)" }}>
+          <Box sx={{ height: "30px", display: 'flex', justifyContent: 'center', p: 1, backgorundColor: "rgb(52,103,203)" }}>
             <Typography
               sx={{ m: 1 }}
               variant='h5'

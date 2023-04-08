@@ -67,4 +67,4 @@ while True:
                 # print("\t" + (bot_response))
                 print(bot_response)
     else:
-        print(f"{bot_name}: I do not understand...")
+        print(f"Sorry I don't understand")
