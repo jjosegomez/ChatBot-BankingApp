@@ -4,6 +4,12 @@ import { alpha } from '@mui/material/styles';
 import { Box, Divider, Typography, MenuItem, Avatar, IconButton, Popover } from '@mui/material';
 // mocks_
 import account from '../../../_mock/account';
+import axios from 'axios';
+import { apiBaseURL } from 'src/_mock/account';
+import { defaultHeaders } from 'src/_mock/account';
+import { Alert } from '@mui/material';
+import Cookies from 'js-cookie'
+import { useNavigate } from 'react-router-dom';
 
 // ----------------------------------------------------------------------
 
@@ -11,6 +17,7 @@ import account from '../../../_mock/account';
 // ----------------------------------------------------------------------
 
 export default function AccountPopover() {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(null);
 
   const handleOpen = (event) => {
@@ -19,6 +26,27 @@ export default function AccountPopover() {
 
   const handleClose = () => {
     setOpen(null);
+  };
+
+  const handleLogout = () => {
+    setOpen(null);
+    const url = apiBaseURL + "logout/"
+    console.log(Cookies.get('Authorization'));
+    let logoutToken = Cookies.get('Authorization');
+    let logoutHeaders = {
+      headers: { Authorization: `Token ${logoutToken}` }
+    };
+    console.log(logoutHeaders);
+    axios.post(url, null, logoutHeaders).then(response => {
+      console.log(response)
+      // Set token as a cookie
+      navigate('/login', { replace: true });
+    })
+      .catch(error => {
+        console.error(error);
+        console.log("There was an error");
+      });
+
   };
 
   return (
@@ -72,9 +100,9 @@ export default function AccountPopover() {
         </Box>
 
         <Divider sx={{ borderStyle: 'dashed' }} />
-        
 
-        <MenuItem onClick={handleClose} sx={{ m: 1 }}>
+
+        <MenuItem onClick={handleLogout} sx={{ m: 1 }}>
           Logout
         </MenuItem>
       </Popover>

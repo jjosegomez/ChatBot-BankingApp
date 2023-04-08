@@ -21,7 +21,7 @@ user = {
 user = json.dumps(user)
 print(user)
 
-
+# Finished
 def chatTest():
     url = baseURL + "chatbot/"
     input = {
@@ -35,7 +35,8 @@ def chatTest():
 def loginTest():
     url = baseURL + "login/"
     response = requests.post(url, data=user, headers=loginHeader)
-    token = response.cookies.get('Authorization')
+    print(response.json()['Authorization'])
+    token = response.json()['Authorization']
     global headers
     headers["Authorization"] = f"Token {token}"
     print("\nLogin Viewset test: ")
@@ -99,6 +100,7 @@ def logoutTest():
     # Replace with the URL of your API endpoint
     url = baseURL + "logout/"
     # Send an HTTP GET request to the endpoint
+    print(headers)
     response = requests.post(
         url, headers=headers)
     # Check the response status code and content
@@ -122,7 +124,7 @@ profileGetTest()
 appointment = getAppointmentsTest()
 
 # updateAppointmentsTest(appointment[0]['url'])
-logoutTest()
+#logoutTest()
 
 chatTest()
-availableTest()
+# availableTest()

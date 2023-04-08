@@ -105,7 +105,7 @@ class RegisterAPI(generics.GenericAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
-        return Response({
+        return JsonResponse({
             "user": UserSerializer(user, context=self.get_serializer_context()).data,
             "token": AuthToken.objects.create(user)[1]
         })
@@ -166,7 +166,7 @@ def AvailableAppointments(request):
         "AppointmentsByCoach": availableAppointments
     }
 
-    print(returnObj)
+    # print(returnObj)
     # Return an error response if the request method or content type is not correct
     # error_data = {
     #     'error': 'valid request'
@@ -185,18 +185,18 @@ class LoginAPI(KnoxLoginView):  # Login API: Endpoint accessible to REACT fronte
         response = super(LoginAPI, self).post(request, format=None)
         data = response.data
         print(f"Token: {data['token']}")
-        returnResponse = HttpResponse()
         # Example string to be converted
         string_date = data['expiry']
         # Define the format string
         format_string = '%Y-%m-%dT%H:%M:%S.%fZ'
         # Convert the string to a datetime object
         date_object = datetime.strptime(string_date, format_string)
-        returnResponse.set_cookie(
-            key='Authorization', value=f"{data['token']}", expires=date_object)
-        # print(token)
-        return returnResponse
-
+        cookie = {
+            'Authorization' : f"{data['token']}",
+            'Expires' : date_object
+        }
+        return JsonResponse(cookie)
+    
 # Chatbot API endpoint
 
 
@@ -257,3 +257,10 @@ def ChatBotView(request):
             'error': 'Invalid request'
         }
         return JsonResponse(error_data, status=400)
+
+
+# initial csrf token
+from django.middleware.csrf import get_token
+@csrf_exempt
+def csrf(request):
+    return JsonResponse({'csrfToken': get_token(request)})

@@ -2,10 +2,19 @@
 import axios from 'axios';
 import Cookies from "js-cookie";
 
+
+// Values to export
+let defaultHeaders = {
+  "Content-Type": "application/json",
+  "Authorization": "Token ",
+};
+let apiBaseURL = "http://127.0.0.1:8000/api/";
+let currentUser = ""
+
 function account() {
 
   const account = {
-    displayName: 'Jackson Software',
+    displayName: currentUser,
     email: 'jacksonsoftware@example.com',
     photoURL: '/assets/images/avatars/avatar_default.jpg',
   }
@@ -18,14 +27,6 @@ function account() {
 
 
 export default account();
-
-// Export additional values
-let defaultHeaders = {
-  "Content-Type": "application/json",
-  "Authorization": "",
-};
-let apiBaseURL = "http://127.0.0.1:8000/api/";
-
-
 export { defaultHeaders };
 export { apiBaseURL };
+export { currentUser };
