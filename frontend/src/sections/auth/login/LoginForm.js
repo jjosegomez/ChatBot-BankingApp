@@ -9,6 +9,8 @@ import axios from 'axios';
 import { apiBaseURL } from 'src/_mock/account';
 import { defaultHeaders } from 'src/_mock/account';
 import { Alert } from '@mui/material';
+import { isAuthenticated } from 'src/_mock/account';
+import account from 'src/_mock/account';
 
 // ----------------------------------------------------------------------
 
@@ -37,14 +39,29 @@ export default function LoginForm() {
       // Set token as a cookie
       let date = new Date(response.data.Expires)
       document.cookie = `Authorization=${response.data.Authorization}; expires=${date.toUTCString()}; SameSite=None; Secure`;
-      navigate('/dashboard', { replace: true });
-    })
-      .catch(error => {
+
+      // navigate('/dashboard', { replace: true });
+      // Wait for isAuthenticated() Promise to resolve
+      isAuthenticated().then(authenticated => {
+        if (authenticated) {
+          console.log("authenticated was true")
+          console.log(account)
+          navigate('/dashboard', { replace: true });
+        } else {
+          console.log("authenticated was false")
+          setError("Invalid Credentials. Please Try Again.")
+        }
+      }).catch(error => {
         console.error(error);
         console.log("There was an error");
         setError("Invalid Credentials. Please Try Again.")
       });
-    
+    }).catch(error => {
+      console.error(error);
+      console.log("There was an error");
+      setError("Invalid Credentials. Please Try Again.")
+    });
+
   };
 
   return (

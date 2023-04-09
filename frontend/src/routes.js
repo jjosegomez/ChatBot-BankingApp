@@ -12,23 +12,23 @@ import Page404 from './pages/Page404';
 import ProductsPage from './pages/ProductsPage';
 import DashboardAppPage from './pages/DashboardAppPage';
 
-import isAuthenticated from './_mock/authenticate'
+import account from './_mock/account';
+import { isAuthenticated } from './_mock/account';
 
 // ----------------------------------------------------------------------
 
 export default function Router() {
 
-  const authenticated = true;
   const routes = useRoutes([
     {
       path: '/dashboard',
-      element: authenticated ? <DashboardLayout /> : <Navigate to="/login" />,
+      element: account.authenticated ? <DashboardLayout /> : <Navigate to="/login" />,
       children: [
         { element: <Navigate to="/dashboard/home" />, index: true },
-        { path: 'home', element: authenticated ? <DashboardAppPage /> : <Navigate to="/login" /> },
-        { path: 'appointmenthistory', element: authenticated ? <UserPage /> : <Navigate to="/login" /> },
-        { path: 'bookappointment', element: authenticated ? <ProductsPage /> : <Navigate to="/login" /> },
-        { path: 'profile', element: authenticated ? <BlogPage /> : <Navigate to="/login" /> },
+        { path: 'home', element: account.authenticated ? <DashboardAppPage /> : <Navigate to="/login" /> },
+        { path: 'appointmenthistory', element: account.authenticated ? <UserPage /> : <Navigate to="/login" /> },
+        { path: 'bookappointment', element: account.authenticated ? <ProductsPage /> : <Navigate to="/login" /> },
+        { path: 'profile', element: account.authenticated ? <BlogPage /> : <Navigate to="/login" /> },
       ],
     },
     {

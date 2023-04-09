@@ -5,6 +5,7 @@ import { Container, Stack, Typography } from '@mui/material';
 import { ProductList } from '../sections/@dashboard/products';
 // mock
 import PRODUCTS from '../_mock/products';
+import account from 'src/_mock/account';
 
 // ----------------------------------------------------------------------
 
@@ -25,7 +26,7 @@ export default function ProductsPage() {
           
         </Stack>
 
-        <ProductList products={PRODUCTS} />
+        <ProductList appointmentsByCoach={account.availableAppointments} />
         
       </Container>
     </>

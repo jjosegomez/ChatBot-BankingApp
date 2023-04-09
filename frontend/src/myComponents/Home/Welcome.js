@@ -1,5 +1,6 @@
 import React from 'react';
 import {Typography, Box, Container} from '@mui/material';
+import account from 'src/_mock/account';
 
 const Welcome = () => {
   return (
@@ -7,7 +8,7 @@ const Welcome = () => {
     <Box sx={{m:5, display: "flex", flexFlow: "row wrap", justifyContent:"space-around", alignItems:"center"}}>
         <Box sx={{display:"flex", flexFlow: 'column',maxWidth:"500px"}}>
             <Typography sx={{ m:5, mb:1, p:0}} color="textPrimary" variant="h3">
-                Find Your Perfect Life Coach Today!
+                Hi {account.first_name}, find Your Perfect Life Coach Today!
             </Typography>
             <Typography sx={{mb:2, mt:2.5, ml:2,mr:2}}>
                 Welcome to MindfulCoach, where you can find your perfect life coach. We help match you with a coach who understands your personality and goals, so you can achieve your full potential. Our easy-to-use platform lets you search for coaches based on your preferences and connect with them directly to schedule sessions. Let us help you find the support and guidance you need to succeed.

@@ -25,6 +25,7 @@ import Scrollbar from '../components/scrollbar';
 import { UserListHead, UserListToolbar } from '../sections/@dashboard/user';
 // mock
 import USERLIST from '../_mock/user';
+import account from 'src/_mock/account';
 
 // ----------------------------------------------------------------------
 
@@ -33,8 +34,8 @@ const TABLE_HEAD = [
   { id: 'company', label: 'Client Name', alignRight: false },
   { id: 'date', label: 'Date', alignRight: false },
   { id: 'time', label: 'Time', alignRight: false },
-  { id: 'status', label: 'Status', alignRight: false },
-  { id: '' },
+  { id: '', label: '', alignRight: false },
+  
 ];
 
 // ----------------------------------------------------------------------
@@ -115,9 +116,10 @@ export default function UserPage() {
   const handleFilterByName = (event) => {
     setPage(0);
     setFilterName(event.target.value);
+    
   };
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
+  const emptyRows = 0;
 
   const filteredUsers = applySortFilter(USERLIST, getComparator(order, orderBy), filterName);
 
@@ -140,49 +142,51 @@ export default function UserPage() {
           <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
 
           <Scrollbar>
-            <TableContainer sx={{ minWidth: 800 }}>
-              <Table>
+            <TableContainer sx={{  minWidth: 800 }}>
+              <Table align="center">
                 <UserListHead
                   order={order}
                   orderBy={orderBy}
                   headLabel={TABLE_HEAD}
-                  rowCount={USERLIST.length}
+                  rowCount={account.appointments.length}
                   numSelected={selected.length}
                   onRequestSort={handleRequestSort}
                   onSelectAllClick={handleSelectAllClick}
                 />
                 <TableBody>
-                  {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, name, role, status, company, avatarUrl, isVerified } = row;
-                    const selectedUser = selected.indexOf(name) !== -1;
+                  {account.appointments.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                    const rowData = {
+                      "CoachName" : row.CoachName,
+                      "ClientName" : account.displayName,
+                      "date" : row.date,
+                      "time" : row.time,
+                    }
+                    const selectedUser = selected.indexOf(rowData.CoachName) !== -1;
 
                     return (
-                      <TableRow hover key={id} tabIndex={-1} role="checkbox" selected={selectedUser}>
+                      <TableRow hover key={rowData.CoachName} tabIndex={-1} role="checkbox" >
                         <TableCell padding="checkbox">
-                          
+
                         </TableCell>
 
                         <TableCell component="th" scope="row" padding="none">
                           <Stack direction="row" alignItems="center" spacing={2}>
-                            <Avatar alt={name} src={avatarUrl} />
+                            <Avatar src='/assets/images/avatars/avatar_default.jpg' />
                             <Typography variant="subtitle2" noWrap>
-                              {name}
+                              {rowData.CoachName}
                             </Typography>
                           </Stack>
                         </TableCell>
 
-                        <TableCell align="left">{company}</TableCell>
+                        <TableCell align="left">{rowData.ClientName}</TableCell>
 
-                        <TableCell align="left">{role}</TableCell>
+                        <TableCell align="left">{rowData.date}</TableCell>
 
-                        <TableCell align="left">{isVerified ? 'Yes' : 'No'}</TableCell>
+                        <TableCell align="left">{rowData.time}</TableCell>
 
-                        <TableCell align="left">
-                          <Label color={(status === 'banned' && 'error') || 'success'}>{sentenceCase(status)}</Label>
-                        </TableCell>
 
                         <TableCell align="right">
-                        
+
                         </TableCell>
                       </TableRow>
                     );
@@ -222,9 +226,9 @@ export default function UserPage() {
           </Scrollbar>
 
           <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
+            rowsPerPageOptions={[5, 10, 25, 50]}
             component="div"
-            count={USERLIST.length}
+            count={account.appointments.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
@@ -251,7 +255,7 @@ export default function UserPage() {
           },
         }}
       >
-        
+
       </Popover>
     </>
   );

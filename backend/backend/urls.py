@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from MindfulCoach import views
-from MindfulCoach.views import RegisterAPI, LoginAPI, ChatBotView, AvailableAppointments, csrf
+from MindfulCoach.views import RegisterAPI, LoginAPI, ChatBotView, AvailableAppointments, csrf, getAppointments 
 from knox import views as knox_views
 from rest_framework import routers
 
@@ -38,6 +38,7 @@ urlpatterns = [
     path('api/logoutall/', knox_views.LogoutAllView.as_view(), name='logoutall'),
     path('api/chatbot/', ChatBotView),
     path('api/availableappointments/', AvailableAppointments),
-    path('api/csrf/', csrf)
+    path('api/csrf/', csrf),
+    path('api/getappointments/', getAppointments)
 
 ]

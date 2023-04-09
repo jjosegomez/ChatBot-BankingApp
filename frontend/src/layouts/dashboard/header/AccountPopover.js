@@ -33,6 +33,7 @@ export default function AccountPopover() {
     const url = apiBaseURL + "logout/"
     console.log(Cookies.get('Authorization'));
     let logoutToken = Cookies.get('Authorization');
+    Cookies.remove('Authorization');
     let logoutHeaders = {
       headers: { Authorization: `Token ${logoutToken}` }
     };
@@ -40,6 +41,7 @@ export default function AccountPopover() {
     axios.post(url, null, logoutHeaders).then(response => {
       console.log(response)
       // Set token as a cookie
+      localStorage.removeItem('myAccountInfo');
       navigate('/login', { replace: true });
     })
       .catch(error => {

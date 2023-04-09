@@ -1,3 +1,7 @@
+from knox.auth import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view, permission_classes
+from django.middleware.csrf import get_token
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render
 import json
@@ -87,21 +91,46 @@ class AppointmentViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         print(self.request.user.id)
+        return self.queryset
         # Only return objects that belong to the authenticated user
-        if (self.request.user.is_staff == 1):
-            coach = CoachProfile.objects.get(user=self.request.user.id)
-            return self.queryset.filter(coach=coach)
-        else:
-            client = ClientProfile.objects.get(user=self.request.user.id)
-            return self.queryset.filter(client=client)
+        # if (self.request.user.is_staff == 1):
+        #     coach = CoachProfile.objects.get(user=self.request.user.id)
+        #     return self.queryset.filter(coach=coach)
+        # else:
+        #     returnObj = []
+        #     client = ClientProfile.objects.get(user=self.request.user.id)
+        #     return self.queryset.filter(client=client)
 
 
 # Register API: Endpoint accessible to REACT frontend
+
+
+@csrf_exempt
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def getAppointments(request):
+    print(request.user.first_name)
+    print("hello there")
+    Appointments = Appointment.objects.all()
+    if (request.user.is_staff == 1):
+        coach = CoachProfile.objects.get(user=request.user.id)
+        data = AppointmentSerializer(Appointment.objects.filter(
+            client=client), many=True, context={'request': request}).data,
+    else:
+        returnObj = []
+        client = ClientProfile.objects.get(user=request.user.id)
+        data = AppointmentSerializer(Appointment.objects.filter(client=client), many=True, context={'request': request}).data,
+    returnObj = {
+        "appointments" : data,
+    }
+    print(returnObj)
+    return JsonResponse(returnObj, status=200)
+
 class RegisterAPI(generics.GenericAPIView):
     serializer_class = RegisterSerializer
 
     def post(self, request, *args, **kwargs):
-        #is_staff = request.data.get('is_staff', False)
+        # is_staff = request.data.get('is_staff', False)
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
@@ -134,13 +163,13 @@ def AvailableAppointments(request):
 
     for coach in Coaches:
         # Attempt to create appointments for the next week if they are not already there
-        for daysAhead in range(7):
+        for daysAhead in range(15):
             futureDate = date.today() + timedelta(days=daysAhead)
             for hour in hours:
                 hourOfAppointment = time(hour, 00)
                 if not (allAppointments.filter(coach=coach, date=futureDate, time=hourOfAppointment).exists()):
-                    print(
-                        f"This appointment for {coach} does not exist {futureDate} at {hourOfAppointment}")
+                    # print(
+                    #     f"This appointment for {coach} does not exist {futureDate} at {hourOfAppointment}")
                     if (futureDate.weekday() in daysOfWeek):
                         newAppt = Appointment(
                             coach=coach, date=futureDate, time=hourOfAppointment)
@@ -192,11 +221,11 @@ class LoginAPI(KnoxLoginView):  # Login API: Endpoint accessible to REACT fronte
         # Convert the string to a datetime object
         date_object = datetime.strptime(string_date, format_string)
         cookie = {
-            'Authorization' : f"{data['token']}",
-            'Expires' : date_object
+            'Authorization': f"{data['token']}",
+            'Expires': date_object
         }
         return JsonResponse(cookie)
-    
+
 # Chatbot API endpoint
 
 
@@ -211,7 +240,7 @@ def ChatBotView(request):
         original_dir = os.getcwd()
 
         # construct the path to the script file
-        #script_path = os.path.join(current_dir, 'ChatBot', 'chat.py')
+        # script_path = os.path.join(current_dir, 'ChatBot', 'chat.py')
         chatbot_dir = os.path.join(os.path.dirname(
             os.path.abspath(__file__)), 'ChatBot')
         os.chdir(chatbot_dir)
@@ -260,7 +289,8 @@ def ChatBotView(request):
 
 
 # initial csrf token
-from django.middleware.csrf import get_token
+
+
 @csrf_exempt
 def csrf(request):
     return JsonResponse({'csrfToken': get_token(request)})

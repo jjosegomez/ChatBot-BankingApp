@@ -53,4 +53,7 @@ class RegisterSerializer(serializers.HyperlinkedModelSerializer):
         else:
             user = User.objects.create_user(
                 validated_data['username'], validated_data['email'], validated_data['password'])
+            user.first_name = validated_data['first_name']
+            user.last_name = validated_data['last_name']
+            user.save()
             return user

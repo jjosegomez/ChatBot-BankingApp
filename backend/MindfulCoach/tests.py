@@ -87,7 +87,7 @@ def updateAppointmentsTest(url):
 
     # Send an HTTP GET request to the endpoint
     data = {"client": "http://127.0.0.1:8000/api/clientprofile/3/"}
-
+    # url1 = "http://127.0.0.1:8000/api/appointments/1329/"
     response = requests.patch(
         url, headers=headers, data=data)
     # Check the response status code and content
@@ -122,7 +122,7 @@ print(headers)
 userGetTest()
 profileGetTest()
 appointment = getAppointmentsTest()
-
+print(appointment[0]['url'])
 # updateAppointmentsTest(appointment[0]['url'])
 #logoutTest()
 
