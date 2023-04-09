@@ -115,7 +115,7 @@ def getAppointments(request):
     if (request.user.is_staff == 1):
         coach = CoachProfile.objects.get(user=request.user.id)
         data = AppointmentSerializer(Appointment.objects.filter(
-            client=client), many=True, context={'request': request}).data,
+            coach=coach), many=True, context={'request': request}).data,
     else:
         returnObj = []
         client = ClientProfile.objects.get(user=request.user.id)

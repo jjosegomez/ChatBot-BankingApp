@@ -35,7 +35,7 @@ const TABLE_HEAD = [
   { id: 'date', label: 'Date', alignRight: false },
   { id: 'time', label: 'Time', alignRight: false },
   { id: '', label: '', alignRight: false },
-  
+
 ];
 
 // ----------------------------------------------------------------------
@@ -116,7 +116,7 @@ export default function UserPage() {
   const handleFilterByName = (event) => {
     setPage(0);
     setFilterName(event.target.value);
-    
+
   };
 
   const emptyRows = 0;
@@ -142,7 +142,7 @@ export default function UserPage() {
           <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
 
           <Scrollbar>
-            <TableContainer sx={{  minWidth: 800 }}>
+            <TableContainer sx={{ minWidth: 800 }}>
               <Table align="center">
                 <UserListHead
                   order={order}
@@ -156,10 +156,10 @@ export default function UserPage() {
                 <TableBody>
                   {account.appointments.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                     const rowData = {
-                      "CoachName" : row.CoachName,
-                      "ClientName" : account.displayName,
-                      "date" : row.date,
-                      "time" : row.time,
+                      "CoachName": row.CoachName,
+                      "ClientName": account.displayName,
+                      "date": row.date,
+                      "time": row.time,
                     }
                     const selectedUser = selected.indexOf(rowData.CoachName) !== -1;
 
@@ -171,7 +171,7 @@ export default function UserPage() {
 
                         <TableCell component="th" scope="row" padding="none">
                           <Stack direction="row" alignItems="center" spacing={2}>
-                            <Avatar src='/assets/images/avatars/avatar_default.jpg' />
+                            <Avatar src={`/assets/images/avatars/avatar_${Math.floor(Math.random() * 24) + 1}.jpg`} />
                             <Typography variant="subtitle2" noWrap>
                               {rowData.CoachName}
                             </Typography>
@@ -182,7 +182,7 @@ export default function UserPage() {
 
                         <TableCell align="left">{rowData.date}</TableCell>
 
-                        <TableCell align="left">{rowData.time}</TableCell>
+                        <TableCell align="left">{changeTime(rowData.time)}</TableCell>
 
 
                         <TableCell align="right">
@@ -259,4 +259,9 @@ export default function UserPage() {
       </Popover>
     </>
   );
+}
+
+function changeTime(time1) {
+  let time = new Date(`2023-04-13 ${time1}`)
+  return time.toLocaleTimeString();
 }
