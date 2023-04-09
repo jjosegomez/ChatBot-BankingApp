@@ -110,6 +110,7 @@ export default function CoachCard(props) {
   };
 
   const handleSubmissionClick = (event) => {
+    setCoachSelect(false);
     const dayChosen = selectedDate.toISOString().slice(0, 10)
     let url = ""
     // const date = new Date(`${dayChosen} ${selectedTime}`);
@@ -171,8 +172,9 @@ export default function CoachCard(props) {
   };
 
   return (
-
+    
     <Card sx={{ maxWidth: 345, }}>
+      {update && <Alert severity="success" style={{display: 'flex', justifyContent: 'center'}} >{update}</Alert>}
       <CardActionArea sx={{ pt: 3, justifyContent: 'center', alignItems: 'center' }}>
         <Stack spacing={0} sx={{ p: 3, justifyContent: 'center', alignItems: 'center' }}>
           <Avatar
