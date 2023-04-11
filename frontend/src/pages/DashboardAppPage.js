@@ -38,6 +38,7 @@ export default function DashboardAppPage() {
         borderRadius: "10px",
         margin: "auto",
         backgroundColor:"#fff",
+        textAlign: "justify"
       }}>
         <Welcome/>
         <BookAppointment/>
