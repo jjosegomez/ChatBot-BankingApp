@@ -36,7 +36,7 @@ function ChatUI(props) {
         </Box>
         <Box sx={{ display: 'flex', m: 2 }}>
           <TextField
-            label="Type your message"
+            label="Type your question"
             variant="outlined"
             size="small"
             color="primary"

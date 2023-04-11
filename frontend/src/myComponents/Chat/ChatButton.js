@@ -6,7 +6,7 @@ import Button from "@mui/material/Button"
 const ChatButton = () => {
     const [showChat, setShowChat] = useState(false); //block for visible
     const [visible, setVisible] = useState("-400px");
-    const [buttonText, setButtonText] = useState("Need Assistance")
+    const [buttonText, setButtonText] = useState("Need Assistance?")
 
     const handleShowChat = () => {
         if(showChat == false){
