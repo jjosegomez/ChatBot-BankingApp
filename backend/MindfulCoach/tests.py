@@ -22,6 +22,8 @@ user = json.dumps(user)
 print(user)
 
 # Finished
+
+
 def chatTest():
     url = baseURL + "chatbot/"
     input = {
@@ -124,7 +126,7 @@ profileGetTest()
 appointment = getAppointmentsTest()
 print(appointment[0]['url'])
 # updateAppointmentsTest(appointment[0]['url'])
-#logoutTest()
+# logoutTest()
 
 chatTest()
 # availableTest()
