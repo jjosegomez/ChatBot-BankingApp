@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from MindfulCoach import views
-from MindfulCoach.views import RegisterAPI, LoginAPI, ChatBotView, AvailableAppointments, csrf, getAppointments 
+from MindfulCoach.views import RegisterAPI, LoginAPI, ChatBotView, AvailableAppointments, csrf, getAppointments
 from knox import views as knox_views
 from rest_framework import routers
 
