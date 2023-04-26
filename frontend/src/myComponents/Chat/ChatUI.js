@@ -50,7 +50,7 @@ function ChatUI(props) {
 
   return (
     <Box sx={{
-      border: "lightgrey solid 1px", position: 'fixed', bottom: props.isVisible, right: '20px', zIndex: 9999,
+      border: "lightgrey solid 1px", bottom: props.isVisible, zIndex: 9999, width:"600px", margin:"auto", marginTop:"5rem",
       backgroundColor: "#fff", borderRadius: "2%", overflow: "hidden", transition: ".5s", maxHeight: "600px",
 
     }}>
@@ -96,7 +96,7 @@ function ChatUI(props) {
               onChange={(event) => setChatMessage(event.target.value)}
               sx={{ flexGrow: 1 }}
             />
-            <Button sx={{ ml: 1 }} variant="contained" onClick={handleSend}>
+            <Button sx={{ ml: 1, backgroundColor:"green" }} variant="contained" onClick={handleSend}>
               Send
             </Button>
           </Box>

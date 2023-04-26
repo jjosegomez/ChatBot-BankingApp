@@ -12,7 +12,6 @@ let apiBaseURL = "http://127.0.0.1:8000/api/";
 let currentUser = ""
 
 
-
 let account = {
   authenticated: false,
   displayName: "Guest",

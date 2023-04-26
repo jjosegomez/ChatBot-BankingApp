@@ -1,25 +1,20 @@
-from knox.auth import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
 from django.middleware.csrf import get_token
 from django.views.decorators.csrf import csrf_exempt
-from django.shortcuts import render
 import json
 from datetime import datetime
 from datetime import date
 from datetime import time, timedelta
 from rest_framework import viewsets
 from rest_framework import permissions, generics
-from rest_framework.response import Response
 from knox.models import AuthToken
 from .serializers import UserSerializer, RegisterSerializer, AppointmentSerializer, CoachProfileSerializer, ClientProfileSerializer
 from django.contrib.auth.models import User
-from django.http import HttpResponse
 from .models import Appointment, CoachProfile, ClientProfile
 
 from django.contrib.auth import login
 from rest_framework.authtoken.serializers import AuthTokenSerializer
-from rest_framework.authentication import TokenAuthentication
 from knox.views import LoginView as KnoxLoginView
 
 import subprocess

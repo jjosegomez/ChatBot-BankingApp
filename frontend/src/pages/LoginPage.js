@@ -2,13 +2,15 @@ import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 // @mui
 import { styled } from '@mui/material/styles';
-import { Link, Container, Typography } from '@mui/material';
+import {Box, Link, Container, Typography } from '@mui/material';
 // hooks
 import useResponsive from '../hooks/useResponsive';
 // components
 import Logo from '../components/logo';
+
 // sections
 import { LoginForm } from '../sections/auth/login';
+import ChatUI from 'src/myComponents/Chat/ChatUI';
 
 
 // ----------------------------------------------------------------------
@@ -50,45 +52,8 @@ export default function LoginPage() {
   };
 
   return (
-    <>
-      <Helmet>
-        <title> Login | Minimal UI </title>
-      </Helmet>
-
-      <StyledRoot>
-        <Logo
-          sx={{
-            position: 'fixed',
-            top: { xs: 16, sm: 24, md: 40 },
-            left: { xs: 16, sm: 24, md: 40 },
-          }}
-        />
-
-        {mdUp && (
-          <StyledSection>
-            <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
-              Hi, Welcome Back To Mindful Coaching!
-            </Typography>
-            <img src="/assets/illustrations/illustration_login.png" alt="login" />
-          </StyledSection>
-        )}
-
-        <Container maxWidth="sm">
-          <StyledContent>
-            <Typography variant="h4" gutterBottom>
-              Sign in to your Mindful Coach Account
-            </Typography>
-
-            <Typography variant="body2" sx={{ mb: 5 }}>
-              Don’t have an account? {''}
-              <Link sx={{ cursor: 'pointer' }} variant="subtitle2" onClick={handleClick}>Click Here to Register for an Account</Link>
-            </Typography>
-
-
-            <LoginForm />
-          </StyledContent>
-        </Container>
-      </StyledRoot>
-    </>
+    <Box sx={{margin:"auto"}}>
+      <ChatUI></ChatUI>
+    </Box>
   );
 }
